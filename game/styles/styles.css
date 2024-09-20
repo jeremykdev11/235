@@ -1,0 +1,48 @@
+main {
+    font-family: Arial, sans-serif;
+}
+body {
+    background-color:#FCF6B1;
+}
+h1 {
+    font-family: "Rubik Bubbles";
+    color: #E3170A;
+    border-bottom: 1px solid #F7B32B;
+    }
+h2 {
+    color:#E3170A;
+    margin-left: 80px;
+}
+p, ul {
+    color:#2D1E2F;
+    margin-left: 100px;
+}
+blockquote { 
+    background-color: #A9E5BB;
+    padding: 1rem;
+    }
+img.side {
+    float: right;
+    margin: 0 12px;
+}
+footer{
+    background-color: #A9E5BB;
+}
+hr{
+    border-color: #2D1E2F;
+}
+a:link{
+    color:#E3170A;
+}
+a:visited{
+    color:#2D1E2F;
+}
+a:focus{
+    color:#F7B32B;
+}
+a:hover{
+    color:#F7B32B;
+}
+a:active{
+    color:#F7B32B;
+}
