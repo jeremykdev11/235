@@ -1,0 +1,64 @@
+/* Do everything in this file */
+h2{
+    border-bottom: 1px solid red;
+    clear: right;
+}
+figure{
+    width: 60vw;
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+    img{
+        width: 100%;
+    }
+}
+div.tet{
+    flex: 0 0 160px;
+    text-align: center;
+    img{
+        width: 60%;
+        max-width: 200px;
+    }
+}
+div.tet.long{
+    img{
+        width: 80%;
+    }
+}
+div.tet.square{
+    img{
+        width: 40%;
+    }
+}
+div.aliases{
+    text-align: left;
+    margin: 1em;
+}
+
+section#tetlist{
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+}
+header, main, footer{
+    width: 90vw;
+    margin-left: auto;
+    margin-right: auto;
+}
+main{
+    padding: 5vw;
+}
+footer{
+    width: auto;
+    clear: left;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: -1;
+}
+span{
+    display: block;
+    margin: 10px;
+    font-weight: bold;
+    font-size: large;
+}
