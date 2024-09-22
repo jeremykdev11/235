@@ -35,6 +35,8 @@ div.divider {
 }
 p {
     color: #353D2F;
+    font-size: large;
+    line-height: 3em;
 }
 img#photo {
     float: left;
