@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>DOM-3</title>
+	<style>
+		body{border:1px solid gray;}
+		p b{transform: rotate(20deg)}
+	</style>
+</head>
+<body>
+<h1>My Page</h1>
+<h2>Info</h2>
+<h2>Pictures</h2>
+<h2>More Info</h2>
+<p>Blah <b>Blah</b> Blah</p>
+<p>Blah <b>Blah</b> Blah</p>
+<p id="lastParagraph">Blah <b>Blah</b> Blah</p>
+<footer>Copyright &copy; <b>20XX</b></footer>
+<script>
+	"use strict"; 
+  
+  // add your own code here.
+  // 1.
+  document.querySelector("h1").innerHTML = "My UFO Page";
+  // 2.
+  document.querySelector("h2").innerHTML = "My UFO Info";
+  // 3.
+  document.querySelector("h2:nth-of-type(2)").innerHTML = "My UFO Pictures";
+  // 4.
+  document.querySelector("h2:nth-of-type(3)").innerHTML = "";
+  // 5.
+  document.body.style.fontFamily = "sans-serif";
+  document.body.style.color = "#D0312D"
+  // 6.
+  let p1 = document.querySelector("p");
+  p1.innerHTML = "\"Report your UFO sightings here:\" <a href='http://www.nuforc.org/'>http://www.nuforc.org/</a>";
+  p1.style.color = "green";
+  p1.style.fontWeight = "bold";
+  p1.style.fontSize = "2em";
+  p1.style.textTransform = "uppercase";
+  p1.style.textShadow = "3px 2px #A44";
+  // 7.
+  document.querySelector("p:nth-of-type(2)").innerHTML = "";
+  // 8.
+  document.querySelector("#lastParagraph").innerHTML = "<img src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Supposed_UFO%2C_Passaic%2C_New_Jersey.jpg/1200px-Supposed_UFO%2C_Passaic%2C_New_Jersey.jpg'>";
+  // 9.
+  document.querySelector("footer").innerHTML = "&copy; 2024 Jeremy Kotz";
+</script>
+</body>
+</html>
