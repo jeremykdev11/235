@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<title>Web Apps-3-HW</title>
+	<title>Web Apps-4-HW</title>
 	<style>
 		body{border:1px solid gray;}
 	</style>
@@ -41,34 +41,19 @@ let links = {
 
 	}
 
-// Colors
-for (let i = 0; i < colors.length; i++)
+function createList(listelement, array = ["puppydogs", "butterflies", "lollipops"])
 {
-    let colorItem = document.createElement("li");
-    colorItem.innerHTML = colors[i];
-    document.getElementById("colorsList").appendChild(colorItem);
+    for (let i = 0; i < array.length; i++)
+    {
+        let item = document.createElement("li");
+        item.innerHTML = array[i];
+        document.getElementById(listelement).appendChild(item);
+    }
 }
 
-// Foods
-for (let food of foods)
-{
-    let foodItem = document.createElement("li");
-    foodItem.innerHTML = food;
-    document.getElementById("foodsList").appendChild(foodItem);
-}
-
-// Links
-for (let item in links)
-{
-    let linkItem = document.createElement("li");
-    let link = document.createElement("a");
-    link.innerHTML = item;
-    link.href = links[item];
-    linkItem.appendChild(link);
-
-    document.getElementById("linksList").appendChild(linkItem);
-
-}
+createList("colorsList", colors);
+createList("foodsList", foods);
+createList("linksList");
 
 </script>
 </body>
