@@ -1,6 +1,6 @@
 body {
     max-width: 1920px;
-    margin: 20px;   
+    margin: 20px auto;   
     font-size: 1.2rem;
 }
 
@@ -13,7 +13,7 @@ header {
     text-align: right;
     height: 100vh;
 }
-
+/*
 #logo {
     position: absolute;
     width: 800px;
@@ -21,7 +21,7 @@ header {
     top: 0;
     z-index: -1;
 }
-
+*/
 h1 {
     font-family: "Almarai", sans-serif;
     font-weight: 700;
@@ -30,10 +30,10 @@ h1 {
 
 header h1 {
     text-align: left;
-    width: max(30%, 400px);
+    max-width: 600px;
+    padding-left: 20px;
     position: absolute;
     bottom: 0;
-    left: 20px;
 }
 
 h2{
@@ -100,31 +100,41 @@ footer p#link {
     text-align: right;
 }
 
+#header_side {
+  float: right;
+  width: 25vw;
+  min-width: 180px;
+}
+
 #header_image {
-    width: 450px;
-    height: 300px;
+    width: 100%;
+    float: right;
     border: solid 2px black;
     border-radius: 10px;
 }
 
 .rating {
     display: flex;
-    justify-content: space-around;
-    width: 350px;
-    height: 150px;
-    position: absolute;
-    right: 20px;
+    width: 75%;
+    height: auto;
+    float: right;
     text-align: center;
     border: solid 2px black;
     background-color: white;
 }
 
 .rating p {
-    margin: auto;
+    margin: auto 10px;
+}
+
+.rating img {
+  width: 25%;
+  height: 25%;
 }
 
 .main_box {
     flex: 1;
+    min-width: 400px;
 }
 
 #article {
@@ -151,12 +161,12 @@ footer p#link {
     height: 200px;
     border: solid 2px black;
     border-radius: 10px;
-    margin-right: 5px;
+    margin-right: 10px;
 }
 
 .container p {
-    flex: 2;
-    padding-left: 10px;
+    flex: 1;
+    max-width: 400px;
 }
 
 .image_grid {
