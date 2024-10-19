@@ -1,6 +1,6 @@
 body {
     max-width: 1920px;
-    margin: 20px auto;   
+    margin: 20px 40px;   
     font-size: 1.2rem;
 }
 
@@ -11,7 +11,8 @@ main {
 
 header {
     text-align: right;
-    height: 100vh;
+    height: 1080px;
+    background-image: url(../media/tt_logo_background.png);
 }
 /*
 #logo {
@@ -33,34 +34,35 @@ header h1 {
     max-width: 600px;
     padding-left: 20px;
     position: absolute;
-    bottom: 0;
+    bottom: -200px;
 }
 
 h2{
     font-family: "Titan One", sans-serif;
     font-weight: 400;
     font-style: normal;
-    font-size: 3rem;
+    font-size: 5rem;
+    margin: 20px auto;
     text-align: center;
     color: #faa836;
     text-shadow:
-        4px 4px 0 black,
-        -4px 4px 0 black,
-        -4px -4px 0 black,
-        4px -4px 0 black;
+        4px 4px 0 #020918,
+        -4px 4px 0 #020918,
+        -4px -4px 0 #020918,
+        4px -4px 0 #020918;
 }
 
 h3 {
     font-family: "Almarai", sans-serif;
     font-weight: 800;
     font-style: normal;
-    font-size: 1.5rem;
+    font-size: 2rem;
     color: white;
     text-shadow:
-        2px 2px 0 black,
-        -2px 2px 0 black,
-        -2px -2px 0 black,
-        2px -2px 0 black;
+        2px 2px 0 #020918,
+        -2px 2px 0 #020918,
+        -2px -2px 0 #020918,
+        2px -2px 0 #020918;
 }
 
 h4 {
@@ -109,7 +111,7 @@ footer p#link {
 #header_image {
     width: 100%;
     float: right;
-    border: solid 2px black;
+    border: solid 2px #020918;
     border-radius: 10px;
 }
 
@@ -119,7 +121,7 @@ footer p#link {
     height: auto;
     float: right;
     text-align: center;
-    border: solid 2px black;
+    border: solid 2px #020918;
     background-color: white;
 }
 
@@ -142,8 +144,8 @@ footer p#link {
 }
 
 #tips {
-    background-color: #e5f0e4;
-    border: solid 6px black;
+    background-color: #99e7f4;
+    border: solid 6px #020918;
     border-radius: 10px;
     padding: 20px;
     margin: 10px;
@@ -159,7 +161,7 @@ footer p#link {
     flex: 1;
     width: 200px;
     height: 200px;
-    border: solid 2px black;
+    border: solid 2px #020918;
     border-radius: 10px;
     margin-right: 10px;
 }
