@@ -27,6 +27,7 @@ h1 {
     font-family: "Almarai", sans-serif;
     font-weight: 700;
     font-style: normal;
+    background-color: white;
 }
 
 header h1 {
@@ -44,7 +45,7 @@ h2{
     font-size: 5rem;
     margin: 20px auto;
     text-align: center;
-    color: #faa836;
+    color: #ffc61a;
     text-shadow:
         4px 4px 0 #020918,
         -4px 4px 0 #020918,
@@ -96,6 +97,10 @@ footer p {
     font-family: "Roboto", sans-serif;
     font-weight: 700;
     font-style: normal;
+}
+
+footer p#return {
+    text-align: center;
 }
 
 footer p#link {
@@ -164,6 +169,7 @@ footer p#link {
     border: solid 2px #020918;
     border-radius: 10px;
     margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 .container p {
@@ -172,6 +178,8 @@ footer p#link {
 }
 
 .image_grid {
+    background-image: url(../media/tt_tomato.png);
+    background-repeat: no-repeat;
     display: grid;
     grid-template-columns: 1fr 2fr;
     grid-template-rows: 80px auto auto;
@@ -185,7 +193,7 @@ footer p#link {
     .image_grid {
         display: grid;
         grid-template-columns: 1fr 2fr;
-        grid-template-rows: 80px 200px auto;
+        grid-template-rows: 80px 220px auto;
         grid-template-areas: "side  subheading"
                              "side  images"
                              "side  subtext";
@@ -210,6 +218,28 @@ footer p#link {
 
 #subtext {
     grid-area: subtext;
+    background-color: white;
+}
+
+/* Anchor */
+a:link {
+  color: #0b6f9d;
+}
+
+a:visited {
+  color: #020a55;
+}
+
+a:focus {
+  color: #12c2f8;
+}
+
+a:hover {
+  color: #12c2f8;
+}
+
+a:active {
+  color: #12c2f8;
 }
 
 /* Font Classes */
