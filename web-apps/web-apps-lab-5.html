@@ -42,7 +42,29 @@
 "use strict";
 
 let radioButtons = document.getElementsByName("colorGroup");
-console.log(radioButtons);
+let legend = document.querySelector("legend");
+let info = document.querySelector("#info");
+
+
+for (let button of radioButtons)
+{
+	button.onchange = (e) =>
+	{
+		info.innerHTML = `You have selected \"${e.target.value}\"!`;
+	}
+}
+
+document.querySelector("#colorButton").onclick = (e) =>
+{
+	let color = "none";
+	for (let button of radioButtons)
+	{
+		if (button.checked) color = button.value;
+	}
+	info.innerHTML = `Your FINAL choice is \"${color}\"!`
+	legend.style.color = color;
+}
+
 
 </script>
 </body>

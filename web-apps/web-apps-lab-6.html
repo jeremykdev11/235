@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Web Apps-3-HW</title>
+	<style>
+		body{border:1px solid gray;}
+	</style>
+</head>
+<body>
+<h1>My Favorites</h1>
+<h2>My Favorite Colors</h2>
+
+<ol id="colorsList">
+	
+</ol>
+
+<h2>My Favorite Foods</h2>
+
+<ol id="foodsList">
+	
+</ol>
+
+<h2>My Favorite Links</h2>
+
+<ol id="linksList">
+	
+</ol>
+
+<script>
+"use strict";
+let colors = ["orange", "beige", "navy", "white"];
+let foods = ["steak", "souvlaki", "kugel", "butter chicken"]; // add some foods
+
+// Optional - can you figure out how to pull both the key AND the value
+// from the `links` object literal?
+let links = {
+		"RIT": "http://www.rit.edu",
+        "Game UI Database" : "https://www.gameuidatabase.com/",
+        "itch.io" : "https://itch.io/"
+
+	}
+
+// Colors
+for (let i = 0; i < colors.length; i++)
+{
+    let colorItem = document.createElement("li");
+    colorItem.innerHTML = colors[i];
+    document.getElementById("colorsList").appendChild(colorItem);
+}
+
+// Foods
+for (let food of foods)
+{
+    let foodItem = document.createElement("li");
+    foodItem.innerHTML = food;
+    document.getElementById("foodsList").appendChild(foodItem);
+}
+
+// Links
+for (let item in links)
+{
+    let linkItem = document.createElement("li");
+    let link = document.createElement("a");
+    link.innerHTML = item;
+    link.href = links[item];
+    linkItem.appendChild(link);
+
+    document.getElementById("linksList").appendChild(linkItem);
+
+}
+
+</script>
+</body>
+</html>
