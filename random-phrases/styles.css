@@ -1,0 +1,86 @@
+body {
+    background-image: url(images/background.jpg);
+    background-repeat: repeat;
+    font-family: "Roboto", serif;
+}
+
+h1 {
+    margin: auto auto;
+    max-width: 800px;
+    text-align: center;
+    background-color: lightgray;
+    border-radius: 20px;
+}
+
+#quote-section {
+    margin: 10px auto;
+    max-width: 800px;
+    height: 100;
+    background-color: white;
+    border-radius: 20px;
+}
+
+#img-container {
+    width: 80%;
+    margin: auto auto;
+}
+
+#button-container {
+    width: 20%;
+    margin: auto auto;
+    padding: 20px;
+}
+
+#logo {
+    width: 100%;
+}
+
+#quote {
+    font-size: 4rem;
+    text-align: center;
+    color: darkgoldenrod;
+}
+
+/* CSS */
+.button-18 {
+  align-items: center;
+  background-color: gold;
+  border: 0;
+  border-radius: 100px;
+  box-sizing: border-box;
+  color: black;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  line-height: 20px;
+  max-width: 480px;
+  min-height: 40px;
+  min-width: 0px;
+  overflow: hidden;
+  padding: 0px;
+  padding-left: 20px;
+  padding-right: 20px;
+  text-align: center;
+  touch-action: manipulation;
+  transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+  user-select: none;
+  -webkit-user-select: none;
+  vertical-align: middle;
+}
+
+.button-18:hover,
+.button-18:focus { 
+  background-color: goldenrod;
+  color: #ffffff;
+}
+
+.button-18:active {
+  background: darkgoldenrod;
+  color: rgb(255, 255, 255, .7);
+}
+
+.button-18:disabled { 
+  cursor: not-allowed;
+  background: rgba(0, 0, 0, .08);
+  color: rgba(0, 0, 0, .3);
+}
