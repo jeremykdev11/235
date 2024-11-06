@@ -189,7 +189,7 @@
         for (let result of results)
         {
             // 11 - get the URL to the GIF
-            let smallURL = results.images.fixed_width_small.url;
+            let smallURL = result.images.fixed_width_small.url;
             if (!smallURL) smallURL = "images/no-image-found.png";
 
             // 12 - get the URL too the GIPHY Page
