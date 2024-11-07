@@ -99,8 +99,7 @@ function dataLoaded(e){
         // 13 - Build a <div> to hold each result
         let line = `<div class='result'>`;
         line += `<img src='${smallURL}' title='${result.id}' />`;
-        line += `<span><a target='_blank' href='${url}'>View on Giphy</a></span>`
-        line += `<p>Rating: ${result.rating.toUpperCase()}</p>`
+        line += `<span><a target='_blank' href='${url}'>View on Giphy</a><br>Rating: ${result.rating.toUpperCase()}</span>`
         line += `</div>`;
 
         // 14 another way of doing the same thing above
