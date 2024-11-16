@@ -7,13 +7,7 @@ let displayTerm = "";
 
 // define startSearch
 function startSearch(){
-
     let url = "https://www.cheapshark.com/api/1.0/deals?storeID=1";
-
-    // see what the URL looks like
-    console.log(url);
-    
-    // Request data!
     getData(url);
 }
 
@@ -30,6 +24,15 @@ function getData(url){
     // open connection and send the request
     xhr.open("GET", url);
     xhr.send();
+}
+
+function unixToDate(value) {
+    var date = new Date(value * 1000);
+
+    return date.toLocaleString("en-GB", {
+        month: "short",
+        year: "numeric",
+      });
 }
 
 // Callback Functions
@@ -50,24 +53,26 @@ function dataLoaded(e){
     }
 
     // Start building an HTML string we will display to the user
-    let bigString = "<p><i>Here are " + results.length + " results</i></p>";
+    let bigString = "";
     
     // loop through the array of results
     for (let result of results)
     {
-        // get the URL to the steam page
-
-        // Build a <div> to hold each result
-        let line = `<div class='result'>`;
-        line += `<img src='${result.thumb}' title='${result.title}'/>`;
-        line += `<span><p>${result.title} is on sale for ${result.salePrice}</p></span>`
-        line += `</div>`;
+        // Build a table element to hold each result
+        let line = `<tr>`;
+        line += `<td><img src='${result.thumb}' title='${result.title}'/></td>`;
+        line += `<td>${result.title}</td>`
+        line += `<td>${Math.round(result.savings)}%</td>`
+        line += `<td>$${result.salePrice}</td>`
+        line += `<td>${result.steamRatingPercent}%</td>`
+        line += `<td>${unixToDate(result.releaseDate)}</td>`
+        line += `</tr>`;
 
         bigString += line;
     }
 
     // all done building the HTML - show it to the user!
-    document.querySelector("#content").innerHTML = bigString;
+    document.querySelector("#results").innerHTML += bigString;
 }
 
 function dataError(e){
