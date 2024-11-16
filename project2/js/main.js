@@ -1,13 +1,40 @@
 // start search on load
+const defaultURL = "https://www.cheapshark.com/api/1.0/deals?storeID=1";
+
 window.onload = (e) => {
-    startSearch();
+    // Get default data
+    getData(defaultURL);
+
+    document.querySelector("#searchButton").onclick = startSearch;
 }
 	
 let displayTerm = "";
 
 // define startSearch
 function startSearch(){
+
+    // Set up search link
     let url = "https://www.cheapshark.com/api/1.0/deals?storeID=1";
+
+    // Add title to url
+    let title = document.querySelector("#searchInput").value;
+    title = title.trim();
+    title = encodeURIComponent(title);
+    if (title) url += "&title=" + title;
+
+    // Add sort parameters to url
+    let sort = document.querySelector("#searchSelectSort").value;
+    if (sort) url += "&sortBy=" + sort;
+
+    // Add minimum rating to url
+    let rating = document.querySelector("#searchSelectRating").value;
+    if (rating) url += "&metacritic=" + rating;
+
+    // Ensure game is on sale
+    url += "&onSale=1"
+
+    console.log(url);
+
     getData(url);
 }
 
@@ -42,7 +69,7 @@ function dataLoaded(e){
     let xhr = e.target;
 
     // xhr.responseText is the JSON file we just downloaded
-    console.log(xhr.responseText);
+    //console.log(xhr.responseText);
 
     // turn the text into a parsable JavaScript object
     let results = JSON.parse(xhr.responseText);
@@ -53,7 +80,16 @@ function dataLoaded(e){
     }
 
     // Start building an HTML string we will display to the user
-    let bigString = "";
+    let bigString =
+    `<tr>
+    <th></th>
+    <th id="fill">Title</th>
+    <th>% Off</th>
+    <th>Price</th>
+    <th>Metacritic</th>
+    <th>User Rating</th>
+    <th>Release Date</th>
+    </tr>`;
     
     // loop through the array of results
     for (let result of results)
@@ -64,6 +100,7 @@ function dataLoaded(e){
         line += `<td>${result.title}</td>`
         line += `<td>${Math.round(result.savings)}%</td>`
         line += `<td>$${result.salePrice}</td>`
+        line += `<td>${result.metacriticScore}%</td>`
         line += `<td>${result.steamRatingPercent}%</td>`
         line += `<td>${unixToDate(result.releaseDate)}</td>`
         line += `</tr>`;
@@ -72,7 +109,7 @@ function dataLoaded(e){
     }
 
     // all done building the HTML - show it to the user!
-    document.querySelector("#results").innerHTML += bigString;
+    document.querySelector("#results").innerHTML = bigString;
 }
 
 function dataError(e){

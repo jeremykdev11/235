@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project 2</title>
-    <!-- <link rel="stylesheet" href="css/reset.css"> -->
+    <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <script src="js/main.js"></script>
 </head>
 <body>
@@ -17,20 +18,40 @@
     <main>
         <div id="mainContent">
             <div id="search">
-                <div class="searchItem">one</div>
-                <div class="searchItem">two</div>
-                <div class="searchItem">three</div>
+                <div class="searchItem">
+                    <div class="searchTextbox">
+                        <input id="searchInput" type="text" placeholder="Search Games">
+                        <button id="searchButton"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </div>
+                <div class="searchItem">
+                    <div class="searchDropdown">
+                        <p>SORT BY</p>
+                        <select id="searchSelectSort">
+                            <option value="DealRating">deal rating</option>
+                            <option value="Savings">savings</option>
+                            <option value="Price">price</option>
+                            <option value="Metacritic">metacritic rating</option>
+                            <option value="Reviews">steam user rating</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="searchItem">
+                    <div class="searchDropdown">
+                        <p>MINIMUM RATING</p>
+                        <select id="searchSelectRating">
+                            <option value="">none</option>
+                            <option value="25">25%</option>
+                            <option value="50">50%</option>
+                            <option value="75">75%</option>
+                            <option value="85">85%</option>
+                            <option value="90">90%</option>
+                            <option value="95">95%</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            <table id="results">
-                <tr>
-                    <th></th>
-                    <th id="fill">Title</th>
-                    <th>% Off</th>
-                    <th>Price</th>
-                    <th>User Rating</th>
-                    <th>Release Date</th>
-                </tr>
-            </table>
+            <table id="results"></table>
         </div>
     </main>
     <footer>
