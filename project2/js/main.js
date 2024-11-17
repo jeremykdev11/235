@@ -1,9 +1,41 @@
 // start search on load
 const defaultURL = "https://www.cheapshark.com/api/1.0/deals?storeID=1";
 
+let searchInput, searchSort, searchRating;
+let prefix, inputKey, sortKey, ratingKey;
+let storedInput, storedSort, storedRating;
+
 window.onload = (e) => {
+
+    // update fields on load
+    searchInput = document.getElementById("searchInput");
+    searchSort = document.querySelector("#searchSelectSort");
+    searchRating = document.querySelector("#searchSelectRating");
+    
+    prefix = "jck7676-"
+    inputKey = prefix + "input";
+    sortKey = prefix + "sort";
+    ratingKey = prefix + "rating";
+
+    storedInput = localStorage.getItem(inputKey);
+    storedSort = localStorage.getItem(sortKey);
+    storedRating = localStorage.getItem(ratingKey);
+
+    // If we find a previously set name value, display it
+    if (storedInput) searchInput.value = storedInput;
+    if (storedSort) searchSort.value = storedSort;
+    if (storedRating) searchRating.value = storedRating;
+
     // Get default data
-    getData(defaultURL);
+    let url = defaultURL;
+    if (storedInput) url += "&title=" + encodeURIComponent(storedInput.trim());
+    if (storedSort) url += "&sortBy=" + storedSort;
+    if (storedRating) url += "&metacritic=" + storedRating;
+    url += "&onSale=1"
+
+    console.log(url);
+
+    getData(url);
 
     document.querySelector("#searchButton").onclick = startSearch;
 }
@@ -13,8 +45,13 @@ let displayTerm = "";
 // define startSearch
 function startSearch(){
 
+    // Update localStorage when search started
+    localStorage.setItem(inputKey, searchInput.value);
+    localStorage.setItem(sortKey, searchSort.value);
+    localStorage.setItem(ratingKey, searchRating.value);
+
     // Set up search link
-    let url = "https://www.cheapshark.com/api/1.0/deals?storeID=1";
+    let url = defaultURL;
 
     // Add title to url
     let title = document.querySelector("#searchInput").value;
@@ -94,10 +131,13 @@ function dataLoaded(e){
     // loop through the array of results
     for (let result of results)
     {
+        // Build url to steam page
+        let steam = `http://store.steampowered.com/app/${result.steamAppID}`;
+
         // Build a table element to hold each result
         let line = `<tr>`;
-        line += `<td><img src='${result.thumb}' title='${result.title}'/></td>`;
-        line += `<td>${result.title}</td>`
+        line += `<td><a href='${steam}'><img src='${result.thumb}' title='${result.title}'/></a></td>`;
+        line += `<td><a href='${steam}' title='${result.title}'>${result.title}</a></td>`
         line += `<td>${Math.round(result.savings)}%</td>`
         line += `<td>$${result.salePrice}</td>`
         line += `<td>${result.metacriticScore}%</td>`

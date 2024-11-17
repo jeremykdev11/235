@@ -102,6 +102,10 @@ header {
     border-radius: 12px;
 }
 
+.searchDropdown:focus-within {
+    border: 2px solid white;
+}
+
 .searchDropdown select {
     outline: none;
     border: none;
