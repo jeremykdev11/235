@@ -24,7 +24,7 @@ header {
     grid-template-areas:
     "search"
     "results";
-    grid-template-columns: 1fr;
+    grid-template-columns: 100%;
 }
 
 @media screen and (min-width: 850px) {
@@ -32,7 +32,7 @@ header {
         display: grid;
         grid-template-areas:
         "search results";
-        grid-template-columns: 1fr 4fr;
+        grid-template-columns: 20% auto;
     }
 }
 
