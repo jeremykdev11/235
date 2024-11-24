@@ -12,7 +12,7 @@ window.onload = (e) => {
     searchSort = document.querySelector("#searchSelectSort");
     searchRating = document.querySelector("#searchSelectRating");
     
-    prefix = "jck7676-"
+    prefix = "jck7676-";
     inputKey = prefix + "input";
     sortKey = prefix + "sort";
     ratingKey = prefix + "rating";
@@ -31,7 +31,7 @@ window.onload = (e) => {
     if (storedInput) url += "&title=" + encodeURIComponent(storedInput.trim());
     if (storedSort) url += "&sortBy=" + storedSort;
     if (storedRating) url += "&metacritic=" + storedRating;
-    url += "&onSale=1"
+    url += "&onSale=1";
 
     console.log(url);
 
@@ -44,6 +44,7 @@ let displayTerm = "";
 
 // define startSearch
 function startSearch(){
+    document.querySelector("#results").innerHTML = '<caption id="infoText">Searching...</caption>';
 
     // Update localStorage when search started
     localStorage.setItem(inputKey, searchInput.value);
@@ -68,7 +69,7 @@ function startSearch(){
     if (rating) url += "&metacritic=" + rating;
 
     // Ensure game is on sale
-    url += "&onSale=1"
+    url += "&onSale=1";
 
     console.log(url);
 
@@ -111,45 +112,50 @@ function dataLoaded(e){
     // turn the text into a parsable JavaScript object
     let results = JSON.parse(xhr.responseText);
 
-    // if there are no results, print a message and return
+    let displayResults = "";
+
+    // make sure there are results
     if (!results || results.length == 0) {
-        return; // Bail out
+        displayResults = '<caption id="infoText">No results found.</caption>';
     }
-
-    // Start building an HTML string we will display to the user
-    let bigString =
-    `<tr>
-    <th></th>
-    <th id="fill">Title</th>
-    <th>% Off</th>
-    <th>Price</th>
-    <th>Metacritic</th>
-    <th>User Rating</th>
-    <th>Release Date</th>
-    </tr>`;
+    else {
+        // Start building an HTML string we will display to the user
+        let bigString =
+        `<tr>
+        <th></th>
+        <th data-cell="title" id="fill">Title</th>
+        <th data-cell="% off">% Off</th>
+        <th data-cell="price">Price</th>
+        <th data-cell="metacritic">Metacritic</th>
+        <th data-cell="user rating">User Rating</th>
+        <th data-cell="release date">Release Date</th>
+        </tr>`;
     
-    // loop through the array of results
-    for (let result of results)
-    {
-        // Build url to steam page
-        let steam = `http://store.steampowered.com/app/${result.steamAppID}`;
+        // loop through the array of results
+        for (let result of results)
+        {       
+            // Build url to steam page
+            let steam = `http://store.steampowered.com/app/${result.steamAppID}`;
 
-        // Build a table element to hold each result
-        let line = `<tr>`;
-        line += `<td><a href='${steam}'><img src='${result.thumb}' title='${result.title}'/></a></td>`;
-        line += `<td><a href='${steam}' title='${result.title}'>${result.title}</a></td>`
-        line += `<td>${Math.round(result.savings)}%</td>`
-        line += `<td>$${result.salePrice}</td>`
-        line += `<td>${result.metacriticScore}%</td>`
-        line += `<td>${result.steamRatingPercent}%</td>`
-        line += `<td>${unixToDate(result.releaseDate)}</td>`
-        line += `</tr>`;
-
-        bigString += line;
+            // Build a table element to hold each result
+            let line = `<tr>`;
+            line += `<td data-cell="thumbnail" class="thumbnail"><a href='${steam}'><img src='${result.thumb}' title='${result.title}'/></a></td>`;
+            line += `<td data-cell="title"><a href='${steam}' title='${result.title}'>${result.title}</a></td>`;
+            line += `<td data-cell="% off">${Math.round(result.savings)}%</td>`;
+            line += `<td data-cell="price">$${result.salePrice}</td>`;
+            line += `<td data-cell="metacritic">${result.metacriticScore}%</td>`;
+            line += `<td data-cell="user rating">${result.steamRatingPercent}%</td>`;
+            line += `<td data-cell="release date">${unixToDate(result.releaseDate)}</td>`;
+            line += `</tr>`;
+    
+            bigString += line;
+        }
+        
+        displayResults = `<caption id="infoText">Here are ${results.length} results.</caption>` + bigString;
     }
 
     // all done building the HTML - show it to the user!
-    document.querySelector("#results").innerHTML = bigString;
+    document.querySelector("#results").innerHTML = displayResults;
 }
 
 function dataError(e){

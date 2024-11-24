@@ -1,5 +1,10 @@
+* {
+    font-family: 'Outfit';
+}
+
 body {
     margin: 0px;
+    background-color: darkgray;
 }
 
 h1 {
@@ -7,37 +12,40 @@ h1 {
     margin-top: 0.67em;
     margin-bottom: 0.67em;
     font-weight: bold;
+    font-family: 'Outfit';
   }
 
-header {
-    width: 100%;
-    background-color: chartreuse;
+
+#headerWrapper, #mainWrapper {
+    width: min(1280px, 100% - 60px);
+    margin-inline: auto;
 }
 
-#headerContent {
-    padding: 40px;
+#headerWrapper {
+    background-color: chartreuse;
+    padding: 40px 0px;
     text-align: center;
 }
 
-#mainContent {
+#mainWrapper {
     display: grid;
     grid-template-areas:
-    "search"
-    "results";
-    grid-template-columns: 100%;
+    "search results";
+    grid-template-columns: 25% auto;
 }
 
-@media screen and (min-width: 850px) {
-    #mainContent {
-        display: grid;
+@media screen and (max-width: 850px) {
+    #mainWrapper {
         grid-template-areas:
-        "search results";
-        grid-template-columns: 20% auto;
+        "search"
+        "results";
+        grid-template-columns: 100%;
     }
 }
 
 #search {
     grid-area: search;
+    background-color: lightgray;
 
     display: flex;
     flex-direction: column;
@@ -87,6 +95,8 @@ header {
 
     outline: none;
     border: none;
+    border-left: solid 2px darkgray;
+    padding: 10px;
     background: transparent;
 }
 
@@ -122,17 +132,26 @@ header {
 table {
     width: 100%;
     border-collapse: collapse;
+    overflow-x: auto;
+}
+
+caption {
+    padding: 10px;
+    text-align: left;
 }
 
 th, td {
     padding-right: 10px;
     text-align: left;
+    vertical-align: middle;
 }
 
 th {
     position: sticky;
     top: 0px;
 
+    vertical-align: bottom;
+    padding-bottom: 5px;
     width: 120px;
     height: 30px;
     background-color: lightgray;
@@ -142,4 +161,43 @@ th#fill {
     width: auto;
 }
 
+@media screen and (max-width: 850px) {
+    th {
+        display: none;
+    }
+
+    td {
+        display: grid;
+        justify-content: center;
+        grid-template-columns: 120px 120px;
+        padding: 0.2rem;
+        margin: 0px auto;
+    }
+
+    tr {
+        padding: 0px 100px;
+    }
+
+    td:first-child {
+        padding-top: 1rem;
+    }
+
+    td:last-child {
+        padding-bottom: 1rem;
+    }
+
+    /* add text before information */
+    td::before {
+        content: attr(data-cell) ": ";
+        font-weight: bold;
+        text-transform: capitalize;
+    }
+    
+    /* do not include text for the thumbnail */
+    .thumbnail::before {
+        content: "";
+    }
+}
+
 tr:nth-child(even){background-color: #f2f2f2}
+tr:nth-child(odd){background-color: white}
