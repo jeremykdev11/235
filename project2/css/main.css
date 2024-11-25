@@ -172,10 +172,6 @@ table {
     width: 100%;
     border-collapse: collapse;
     overflow-x: auto;
-    line-height: 0px;
-}
-
-table p {
     line-height: 1.5rem;
 }
 
@@ -201,9 +197,10 @@ tr:hover {
     border-bottom: 1px solid transparent;
     color: white;
     transition: all 0.2s;
-    a {
-        color: white;
-    }
+}
+
+tr:hover a {
+    color: white;
 }
 
 
@@ -213,12 +210,15 @@ th, td {
     vertical-align: middle;
 }
 
+.thumbnail {
+    line-height: 0px;
+}
 
 th {
     position: sticky;
     top: 0px;
+    vertical-align: middle;
 
-    vertical-align: bottom;
     padding-bottom: 5px;
     width: 120px;
     height: 30px;

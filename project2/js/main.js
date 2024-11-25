@@ -5,6 +5,7 @@ let searchInput, searchSort, searchRating;
 let prefix, inputKey, sortKey, ratingKey;
 let storedInput, storedSort, storedRating;
 
+// On window load, set up website (references to document items, search terms, stored data. hook up search button)
 window.onload = (e) => {
 
     // update fields on load
@@ -40,7 +41,7 @@ window.onload = (e) => {
 	
 let displayTerm = "";
 
-// define startSearch
+// Creates a url from the user's inputs to use with the API
 function startSearch(){
     document.querySelector("#results").innerHTML = '<caption id="infoText">Searching...</caption>';
 
@@ -72,6 +73,7 @@ function startSearch(){
     getData(url);
 }
 
+// Gets data from the API using a given url
 function getData(url){
     // create a new XHR object
     let xhr = new XMLHttpRequest();
@@ -87,6 +89,7 @@ function getData(url){
     xhr.send();
 }
 
+// Converts a unix timestamp to the correct format to display
 function unixToDate(value) {
     let date = new Date(value * 1000);
 
@@ -98,6 +101,7 @@ function unixToDate(value) {
 
 // Callback Functions
 
+// When data is loaded, build the HTML to populate the results section of the page with
 function dataLoaded(e){
     // event.target is the xhr object
     let xhr = e.target;
@@ -153,6 +157,7 @@ function dataLoaded(e){
     document.querySelector("#results").innerHTML = displayResults;
 }
 
+// Print a message to the console if an error occurs when getting data from the API
 function dataError(e){
     console.log("An error occurred!");
 }
