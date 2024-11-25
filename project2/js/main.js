@@ -117,29 +117,30 @@ function dataLoaded(e){
         let bigString =
         `<tr>
         <th></th>
-        <th data-cell="title" id="fill">Title</th>
-        <th data-cell="% off">% Off</th>
-        <th data-cell="price">Price</th>
-        <th data-cell="metacritic">Metacritic</th>
-        <th data-cell="user rating">User Rating</th>
-        <th data-cell="release date">Release Date</th>
+        <th data-cell="title" id="fill"><p>Title</p></th>
+        <th data-cell="% off"><p>% Off</p></th>
+        <th data-cell="price"><p>Price</p></th>
+        <th data-cell="metacritic"><p>Metacritic</p></th>
+        <th data-cell="user rating"><p>User Rating</p></th>
+        <th data-cell="release date"><p>Release Date</p></th>
         </tr>`;
     
         // loop through the array of results
         for (let result of results)
         {       
-            // Build url to steam page
+            // Build url to steam page and thumbnail
             let steam = `http://store.steampowered.com/app/${result.steamAppID}`;
+            let thumbnail = `https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/${result.steamAppID}/header.jpg`
 
             // Build a table element to hold each result
             let line = `<tr>`;
-            line += `<td data-cell="thumbnail" class="thumbnail"><a href='${steam}'><img src='${result.thumb}' title='${result.title}'/></a></td>`;
-            line += `<td data-cell="title"><a href='${steam}' title='${result.title}'>${result.title}</a></td>`;
-            line += `<td data-cell="% off">${Math.round(result.savings)}%</td>`;
-            line += `<td data-cell="price">$${result.salePrice}</td>`;
-            line += `<td data-cell="metacritic">${result.metacriticScore}%</td>`;
-            line += `<td data-cell="user rating">${result.steamRatingPercent}%</td>`;
-            line += `<td data-cell="release date">${unixToDate(result.releaseDate)}</td>`;
+            line += `<td data-cell="thumbnail" class="thumbnail"><a href='${steam}'><img class="img" src='${thumbnail}' title='${result.title}'/></a></td>`;
+            line += `<td data-cell="title"><a href='${steam}' title='${result.title}'><p>${result.title}</p></a></td>`;
+            line += `<td data-cell="% off"><p>${Math.round(result.savings)}%</p></td>`;
+            line += `<td data-cell="price"><p>$${result.salePrice}</td>`;
+            line += `<td data-cell="metacritic"><p>${result.metacriticScore}%</p></td>`;
+            line += `<td data-cell="user rating"><p>${result.steamRatingPercent}%</p></td>`;
+            line += `<td data-cell="release date"><p>${unixToDate(result.releaseDate)}</p></td>`;
             line += `</tr>`;
     
             bigString += line;

@@ -3,6 +3,7 @@
     --background-gradient: linear-gradient(180deg, rgba(33,62,90,1) 0%, rgba(23,29,37,1) 75%);
     --neutral-color:#1b2838;
     --neutral-gradient: linear-gradient(180deg, rgba(33,77,120,1) 0%, rgba(27,40,56,1) 50%);
+    --header-gradient: linear-gradient(180deg, rgba(33,77,120,0.9) 0%, rgba(27,40,56,0.9) 50%);
     --secondary-color:#394960;
     --primary-color:#7a8b9d;
     --accent-color:#c5c3c0;
@@ -55,7 +56,7 @@ h1 {
 
 #headerWrapper {
     background: var(--neutral-color);
-    background: var(--neutral-gradient) fixed;
+    background: var(--header-gradient), url(../media/Steam_icon_logo.svg) no-repeat center;
     color: var(--accent-color);
     padding: 40px 0px;
     text-align: center;
@@ -91,23 +92,28 @@ h1 {
 
 .searchItem {
     width: 100%;
-    height: 100px;
+    height: auto;
     background-color: var(--secondary-color);
-    border-bottom: solid 2px var(--neutral-color);
+    border-bottom: solid 1px var(--neutral-color);
 }
 
 .searchTextbox {
     display: flex;
     align-items: center;
-    width: 80%;
-    height: 50px;
+}
+
+.searchTextbox, .searchDropdown {
+    max-width: 80%;
+    height: auto;
     margin: 15px auto;
-    
-    padding: 10px;
+
+    padding: 20px;
     background-color: var(--neutral-color);
+    color: var(--accent-color);
 
     border: 1px solid transparent;
     border-radius: 12px;
+
 }
 
 ::placeholder {
@@ -142,19 +148,6 @@ h1 {
     background: transparent;
 }
 
-.searchDropdown {
-    width: 80%;
-    height: 50px;
-    margin: 15px auto;
-    color: var(--accent-color);
-    
-    padding: 10px;
-    background-color: var(--neutral-color);
-
-    border: 1px solid transparent;
-    border-radius: 12px;
-}
-
 .searchDropdown:focus-within {
     border: 1px solid var(--primary-color);
     transition: border 0.4s;
@@ -179,6 +172,15 @@ table {
     width: 100%;
     border-collapse: collapse;
     overflow-x: auto;
+    line-height: 0px;
+}
+
+table p {
+    line-height: 1.5rem;
+}
+
+.img {
+    width: 240px;
 }
 
 caption {
@@ -204,11 +206,13 @@ tr:hover {
     }
 }
 
+
 th, td {
     padding-right: 10px;
     text-align: left;
     vertical-align: middle;
 }
+
 
 th {
     position: sticky;
@@ -222,11 +226,16 @@ th {
     color: white;
 }
 
-th#fill {
-    width: auto;
+#fill {
+    width: 200px;
 }
 
 @media screen and (max-width: 850px) {
+    table {
+        max-width: 400px;
+        margin: auto;
+    }
+
     th {
         display: none;
     }
@@ -244,11 +253,11 @@ th#fill {
     }
 
     td:first-child {
-        padding-top: 1rem;
+        padding-top: 2rem;
     }
 
     td:last-child {
-        padding-bottom: 1rem;
+        padding-bottom: 2rem;
     }
 
     /* add text before information */
@@ -261,6 +270,10 @@ th#fill {
     /* do not include text for the thumbnail */
     .thumbnail::before {
         content: "";
+    }
+
+    .img {
+        margin-left: -120px;
     }
 }
 
