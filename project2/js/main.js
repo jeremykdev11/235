@@ -33,8 +33,6 @@ window.onload = (e) => {
     if (storedRating) url += "&metacritic=" + storedRating;
     url += "&onSale=1";
 
-    console.log(url);
-
     getData(url);
 
     document.querySelector("#searchButton").onclick = startSearch;
@@ -71,8 +69,6 @@ function startSearch(){
     // Ensure game is on sale
     url += "&onSale=1";
 
-    console.log(url);
-
     getData(url);
 }
 
@@ -92,7 +88,7 @@ function getData(url){
 }
 
 function unixToDate(value) {
-    var date = new Date(value * 1000);
+    let date = new Date(value * 1000);
 
     return date.toLocaleString("en-GB", {
         month: "short",
@@ -107,8 +103,6 @@ function dataLoaded(e){
     let xhr = e.target;
 
     // xhr.responseText is the JSON file we just downloaded
-    //console.log(xhr.responseText);
-
     // turn the text into a parsable JavaScript object
     let results = JSON.parse(xhr.responseText);
 
