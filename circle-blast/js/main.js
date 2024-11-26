@@ -11,7 +11,7 @@ let assets;
 
 // game variables
 let startScene;
-let gameScene, ship, scoreLabel, lifeLabel, shootSound, hitSound, fireballSound;
+let gameScene, ship, scoreLabel, lifeLabel, gameOverScoreLabel, shootSound, hitSound, fireballSound;
 let gameOverScene;
 
 let circles = [];
@@ -87,6 +87,7 @@ async function setup() {
   });
 
   // #7 - Load sprite sheet
+  explosionTextures = loadSpriteSheet();
 
   // #8 - Start update loop
   app.ticker.add(gameLoop);
@@ -187,6 +188,18 @@ function createLabelsAndButtons() {
     playAgainButton.on("pointerover", (e) => (e.target.alpha = 0.7)); // concise arrow function with no brackets
     playAgainButton.on("pointerout", (e) => (e.currentTarget.alpha = 1.0)); // ditto
     gameOverScene.addChild(playAgainButton);
+
+    // #3C - Make game over score display
+    gameOverScoreLabel = new PIXI.Text("", {
+        fill: 0xffffff,
+        fontSize: 32,
+        fontFamily: "Futura",
+        stroke: 0xff0000,
+        strokeThickness: 4,
+    });
+    gameOverScoreLabel.x = sceneWidth / 2 - gameOverScoreLabel.width / 2;
+    gameOverScoreLabel.y = sceneHeight / 2 + 60;
+    gameOverScene.addChild(gameOverScoreLabel);
 }
 
 function startGame() {
@@ -194,7 +207,7 @@ function startGame() {
     startScene.visible = false;
     gameOverScene.visible = false;
     gameScene.visible = true;
-    // app.view.onclick = fireBullet;
+    app.view.onclick = fireBullet;
     levelNum = 1;
     score = 0;
     life = 100;
@@ -257,12 +270,25 @@ function gameLoop(){
   
   
     // #4 - Move Bullets
-  
+  for (let b of bullets) {
+    b.move(dt);
+  }
   
     // #5 - Check for Collisions
     for (let c of circles) {
         // #5A - Circles & bullets
-        // TODO
+        for (let b of bullets) {
+            if (rectsIntersect(c, b)) {
+                fireballSound.play();
+                createExplosion(c.x, c.y, 64, 64);
+                gameScene.removeChild(c);
+                c.isAlive = false;
+                gameScene.removeChild(b);
+                b.isAlive = false;
+                increaseScoreBy(1);
+                break;
+            }
+        }
 
         // #5B - Circles & ship
         if (c.isAlive && rectsIntersect(c, ship)) {
@@ -291,6 +317,10 @@ function gameLoop(){
     }
   
     // #8 - Load next level
+    if (circles.length == 0) {
+        levelNum++;
+        loadLevel();
+    }
 }
 
 function createCircles(numCircles = 10) {
@@ -318,8 +348,62 @@ function end() {
     bullets.forEach((b) => gameScene.removeChild(b));
     bullets = [];
 
-    // app.view.onclick = null; // disable the onclick event
+    app.view.onclick = null; // disable the onclick event
+
+    // set value of game over score text
+    gameOverScoreLabel.text = `Your final score: ${score}`;
+    gameOverScoreLabel.x = sceneWidth / 2 - gameOverScoreLabel.width / 2;
 
     gameOverScene.visible = true;
     gameScene.visible = false;
+}
+
+function fireBullet() {
+    if (paused) return;
+
+    let b = new Bullet(0xffffff, ship.x, ship.y);
+    bullets.push(b);
+    gameScene.addChild(b);
+
+    // enable triple fire after clearing level 1
+    if (levelNum > 1) {
+        let b2 = new Bullet(0xffffff, ship.x - 8, ship.y);
+        let b3 = new Bullet(0xffffff, ship.x + 8, ship.y);
+        bullets.push(b2);
+        bullets.push(b3);
+        gameScene.addChild(b2);
+        gameScene.addChild(b3);
+    }
+
+    shootSound.play();
+}
+
+function loadSpriteSheet() {
+    let spriteSheet = PIXI.Texture.from("images/explosions.png");
+    let width = 64;
+    let height = 64;
+    let numFrames = 16;
+    let textures = [];
+    for (let i = 0; i < numFrames; i++) {
+        let frame = new PIXI.Texture({
+            source: spriteSheet,
+            frame: new PIXI.Rectangle(i * width, 64, width, height),
+        });
+        textures.push(frame);
+    }
+    return textures;
+}
+
+function createExplosion(x, y, frameWidth, frameHeight) {
+    let w2 = frameWidth / 2;
+    let h2 = frameHeight / 2;
+    let expl = new PIXI.AnimatedSprite(explosionTextures);
+    expl.x = x - w2; // we want the center of the explosion at the center of the circle
+    expl.y = y - h2;
+    expl.animationSpeed = 1 / 7;
+    expl.loop = false;
+    expl.onComplete = () => gameScene.removeChild(expl);
+    explosions.push(expl);
+    gameScene.addChild(expl);
+    expl.play();
 }
