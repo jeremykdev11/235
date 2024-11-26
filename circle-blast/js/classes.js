@@ -21,7 +21,9 @@ class Circle extends PIXI.Graphics {
         this.isAlive = true;
     }
 
-    move(dt = 1 / 60) {
+    activate() {}
+
+    move(dt = 1/60) {
         this.x += this.fwd.x * this.speed * dt;
         this.y += this.fwd.y * this.speed * dt;
     }
@@ -33,10 +35,58 @@ class Circle extends PIXI.Graphics {
     reflectY() {
         this.fwd.y *= -1;
     }
+
+    // protected methods
+    _wrapX(sceneWidth) {
+        if (this.fwd.x < 0 && this.x < 0 - this.radius) {
+        this.x = sceneWidth + this.radius;
+        }
+        if (this.fwd.x > 0 && this.x > sceneWidth + this.radius) {
+        this.x = 0 - this.radius;
+        }
+    }
+
+    _wrapY(sceneHeight) {
+        if (this.fwd.y < 0 && this.y < 0 - this.radius) {
+        this.y = sceneHeight + this.radius;
+        }
+        if (this.fwd.y > 0 && this.y > sceneHeight + this.radius) {
+        this.y = 0 - this.radius;
+        }
+    }
+
+    _chase(dt){
+        let t = this.target;
+        let amt = 3.0 * dt;
+        let newX = cosineInterpolate(this.x, t.x, amt);
+        let newY = cosineInterpolate(this.y, t.y, amt);
+        this.x = newX;
+        this.y = newY;
+    }
+}
+
+class WrappingCircle extends Circle {
+    reflectX(sceneWidth) {
+        this._wrapX(sceneWidth);
+    }
+
+    reflectY(sceneHeight) {
+        this._wrapY(sceneHeight);
+    }
+}
+
+class SeekingCircle extends Circle {
+    activate(target) {
+      this.target = target;
+    }
+  
+    move(dt) {
+      super._chase(dt);
+    }
 }
 
 class Bullet extends PIXI.Graphics {
-    constructor(color = oxffffff, x = 0, y = 0) {
+    constructor(color = 0xffffff, x = 0, y = 0) {
         super();
         this.rect(-2, -3, 4, 6);
         this.fill(color);
