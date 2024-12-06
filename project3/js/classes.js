@@ -6,6 +6,7 @@ class Alien extends PIXI.Sprite {
         this.y = y;
         this.fwd = getRandomUnitVector();
         this.speed = 150;
+        this.isTarget = false;
     }
 
     // moves the alien over time in the direction it is facing

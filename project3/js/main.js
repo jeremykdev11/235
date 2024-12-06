@@ -148,22 +148,26 @@ function spawnAliens(count = 10) {
   sprites = sprites.filter((sprite) => sprite != targetSprite);
 
   // Spawn target alien
-  let targetAlien = new Alien(targetSprite);
-  newAlien(targetAlien);
+  let targetAlien = newAlien(targetSprite, true)
   
   // Spawn all other aliens
   for (let i = 0; i < count - 1; i++) {
-    let alien = new Alien(sprites[getRandomInt(0, sprites.length - 1)]);
-    newAlien(alien);
+    let alien = newAlien(sprites[getRandomInt(0, sprites.length - 1)], false);
   }
 }
 
 // Creates a single instance of an alien
-function newAlien(alien) {
+function newAlien(sprite, isTarget) {
+  let alien = new Alien(sprite);
+
+  if (isTarget) alien.isTarget = true;
+
   alien.x = Math.random() * (sceneWidth - alien.width) + alien.width / 2;
   alien.y = Math.random() * (sceneHeight - alien.height) + alien.height / 2;
   aliens.push(alien);
   gameScene.addChild(alien);
+
+  return alien;
 }
 
 function end() {
