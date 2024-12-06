@@ -14,12 +14,12 @@ let stage;
 let assets;
 
 // game variables
-let startScene;
+let startScene, gameScene, gameOverScene;
 
 let aliens = [];
 let alienSprites = [];
 
-let paused = false;
+let paused = true;
 
 async function loadImages() {
   // https://pixijs.com/8.x/guides/components/assets#loading-multiple-assets
@@ -54,6 +54,11 @@ async function setup() {
   startScene = new PIXI.Container();
   stage.addChild(startScene);
 
+  // Create the 'game' scene and make it invisible
+  gameScene = new PIXI.Container();
+  gameScene.visible = false;
+  stage.addChild(gameScene);
+
   // Create labels for all scenes
   createLabelsAndButtons();
 
@@ -62,15 +67,48 @@ async function setup() {
 }
 
 function createLabelsAndButtons() {
-  // TEMP
-  spawnAliens(50);
+  let buttonStyle = {
+      fill: 0xff0000,
+      fontSize: 24,
+      fontFamily: "Press Start 2P",
+  };
+
+  // Set up startScene
+  // Make top start label
+  let startLabel1 = new PIXI.Text("Find This Guy!", {
+      fill: 0xffffff,
+      fontSize: 40,
+      fontFamily: "Press Start 2P",
+      stroke: 0xff0000,
+      strokeThickness: 6,
+  });
+  startLabel1.x = sceneWidth / 2 - startLabel1.width / 2;
+  startLabel1.y = 120;
+  startScene.addChild(startLabel1);
+
+  // Make start game button
+  let startButton = new PIXI.Text("PRESS TO START", buttonStyle);
+  startButton.x = sceneWidth / 2 - startButton.width / 2;
+  startButton.y = sceneHeight - 100;
+  startButton.interactive = true;
+  startButton.buttonMode = true;
+  startButton.on("pointerup", startGame); // startGame is a function reference
+  startButton.on("pointerover", (e) => (e.target.alpha = 0.7)); // concise arrow function with no brackets
+  startButton.on("pointerout", (e) => (e.currentTarget.alpha = 1.0));
+  startScene.addChild(startButton);
 }
 
 function startGame() {
-    // Unpause the game which allows the gameLoop and events to be active
-    setTimeout(() => {
-        paused = false;
-    }, 50);
+  startScene.visible = false;
+  //gameOverScene.visible = false;
+  gameScene.visible = true;
+
+  spawnAliens(50);
+
+  // Unpause the game which allows the gameLoop and events to be active
+  setTimeout(() => {
+      paused = false;
+  }, 50);
 }
 
 function gameLoop(){
@@ -107,13 +145,13 @@ function spawnAliens(count = 10) {
   target.x = Math.random() * (sceneWidth - 50) + 25;
   target.y = Math.random() * (sceneHeight - 400) + 25;
   aliens.push(target);
-  startScene.addChild(target);
+  gameScene.addChild(target);
   for (let i = 0; i < count; i++) {
     let alien = new Alien(alienSprites[getRandomInt(0, 2)]);
-    alien.x = Math.random() * (sceneWidth - 50) + 25;
-    alien.y = Math.random() * (sceneHeight - 400) + 25;
+    alien.x = Math.random() * (sceneWidth - alien.width) + alien.width / 2;
+    alien.y = Math.random() * (sceneHeight - alien.height) + alien.height / 2;
     aliens.push(alien);
-    startScene.addChild(alien);
+    gameScene.addChild(alien);
   }
 }
 
