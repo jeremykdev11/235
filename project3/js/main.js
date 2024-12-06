@@ -138,25 +138,38 @@ function gameLoop(){
   }
 }
 
+// Spawns a number of aliens to the game screen
 function spawnAliens(count = 10) {
   console.log("spawning aliens");
 
-  let target = new Alien(alienSprites[3]);
-  target.x = Math.random() * (sceneWidth - 50) + 25;
-  target.y = Math.random() * (sceneHeight - 400) + 25;
-  aliens.push(target);
-  gameScene.addChild(target);
-  for (let i = 0; i < count; i++) {
-    let alien = new Alien(alienSprites[getRandomInt(0, 2)]);
-    alien.x = Math.random() * (sceneWidth - alien.width) + alien.width / 2;
-    alien.y = Math.random() * (sceneHeight - alien.height) + alien.height / 2;
-    aliens.push(alien);
-    gameScene.addChild(alien);
+  // Create new array with alien sprites
+  let sprites = alienSprites.map((x) => x);
+  let targetSprite = alienSprites[getRandomInt(0, 3)];
+  sprites = sprites.filter((sprite) => sprite != targetSprite);
+
+  // Spawn target alien
+  let targetAlien = new Alien(targetSprite);
+  newAlien(targetAlien);
+  
+  // Spawn all other aliens
+  for (let i = 0; i < count - 1; i++) {
+    let alien = new Alien(sprites[getRandomInt(0, sprites.length - 1)]);
+    newAlien(alien);
   }
+}
+
+// Creates a single instance of an alien
+function newAlien(alien) {
+  alien.x = Math.random() * (sceneWidth - alien.width) + alien.width / 2;
+  alien.y = Math.random() * (sceneHeight - alien.height) + alien.height / 2;
+  aliens.push(alien);
+  gameScene.addChild(alien);
 }
 
 function end() {
     paused = true;
 
     // Clear out level
+    aliens.forEach((alien) => gameScene.removeChild(alien));
+    aliens = [];
 }
