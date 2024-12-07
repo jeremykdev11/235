@@ -23,6 +23,12 @@ function rectsIntersect(a,b){
 	return ab.x + ab.width > bb.x && ab.x < bb.x + bb.width && ab.y + ab.height > bb.y && ab.y < bb.y + bb.height;
 }
 
+// Determines if a point is in the rectangle bounds of an object
+function pointInRect(x, y, object) {
+	var rect = object.getBounds();
+	return rect.containsPoint(x, y);
+}
+
 // these 2 helpers are used by classes.js
 function getRandomUnitVector(){
 	let x = getRandom(-1,1);

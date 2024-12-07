@@ -102,13 +102,35 @@ function startGame() {
   startScene.visible = false;
   //gameOverScene.visible = false;
   gameScene.visible = true;
-
   spawnAliens(50);
 
   // Unpause the game which allows the gameLoop and events to be active
   setTimeout(() => {
       paused = false;
+      app.view.onclick = clickAlien;
   }, 50);
+}
+
+function clickAlien() {
+  let mousePos = app.renderer.events.pointer.global;
+
+  for (let alien of aliens) {
+    // find first clicked alien and check if it is the target
+    if (pointInRect(mousePos.x, mousePos.y, alien)) {
+      // clicked alien is the correct target
+      if (alien.isTarget) {
+
+      }
+      // clicked alien is not the correct target
+      else {
+        end();
+      }
+
+      break;
+    }
+  }
+
+  
 }
 
 function gameLoop(){
@@ -176,4 +198,6 @@ function end() {
     // Clear out level
     aliens.forEach((alien) => gameScene.removeChild(alien));
     aliens = [];
+
+    app.view.onclick = null;
 }

@@ -5,7 +5,7 @@ class Alien extends PIXI.Sprite {
         this.x = x;
         this.y = y;
         this.fwd = getRandomUnitVector();
-        this.speed = 150;
+        this.speed = 200;
         this.isTarget = false;
     }
 
