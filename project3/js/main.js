@@ -59,6 +59,11 @@ async function setup() {
   gameScene.visible = false;
   stage.addChild(gameScene);
 
+    // Create the `gameOver` scene and make it invisible
+    gameOverScene = new PIXI.Container();
+    gameOverScene.visible = false;
+    stage.addChild(gameOverScene);
+
   // Create labels for all scenes
   createLabelsAndButtons();
 
@@ -96,11 +101,36 @@ function createLabelsAndButtons() {
   startButton.on("pointerover", (e) => (e.target.alpha = 0.7)); // concise arrow function with no brackets
   startButton.on("pointerout", (e) => (e.currentTarget.alpha = 1.0));
   startScene.addChild(startButton);
+
+  // Set up gameOverScene
+  // make game over text
+    let gameOverText = new PIXI.Text("Game Over!\n\n   :-O", {
+      fill: 0xffffff,
+      fontSize: 40,
+      fontFamily: "Press Start 2P",
+      stroke: 0xff0000,
+      strokeThickness: 6,
+  });
+  gameOverText.x = sceneWidth / 2 - gameOverText.width / 2;
+  gameOverText.y = sceneHeight / 2 - 160;
+  gameOverScene.addChild(gameOverText);
+  
+  // make "play again?" button
+  let playAgainButton = new PIXI.Text("Play Again?", buttonStyle);
+  playAgainButton.x = sceneWidth / 2 - playAgainButton.width / 2;
+  playAgainButton.y = sceneHeight - 100;
+  playAgainButton.interactive = true;
+  playAgainButton.buttonMode = true;
+  playAgainButton.on("pointerup", startGame); // startGame is a function reference
+  playAgainButton.on("pointerover", (e) => (e.target.alpha = 0.7)); // concise arrow function with no brackets
+  playAgainButton.on("pointerout", (e) => (e.currentTarget.alpha = 1.0)); // ditto
+  gameOverScene.addChild(playAgainButton);
 }
+
 
 function startGame() {
   startScene.visible = false;
-  //gameOverScene.visible = false;
+  gameOverScene.visible = false;
   gameScene.visible = true;
   spawnAliens(50);
 
@@ -199,5 +229,9 @@ function end() {
     aliens.forEach((alien) => gameScene.removeChild(alien));
     aliens = [];
 
+    // disable onclick event
     app.view.onclick = null;
+    
+    gameOverScene.visible = true;
+    gameScene.visible = false;
 }
