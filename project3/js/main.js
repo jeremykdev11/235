@@ -15,6 +15,7 @@ let assets;
 
 // game variables
 let startScene, gameScene, gameOverScene;
+let scoreLabel, timerLabel, finalScoreLabel;
 
 let aliens = [];
 let alienSprites = [];
@@ -100,28 +101,32 @@ function createBackgrounds() {
 
 function createLabelsAndButtons() {
   let buttonStyle = {
-      fill: 0xff0000,
-      fontSize: 24,
-      fontFamily: "Press Start 2P",
+      fill: 0xfea85f,
+      fontSize: 32,
+      fontFamily: "Tiny5",
+  };
+  let labelStyle1 = {
+    fill: 0xd8dcb4,
+    fontSize: 64,
+    fontFamily: "Tiny5",
+  };
+  let labelStyle2 = {
+    fill: 0xd8dcb4,
+    fontSize: 40,
+    fontFamily: "Tiny5",
   };
 
   // Set up startScene
   // Make top start label
-  let startLabel1 = new PIXI.Text("Find This Guy!", {
-      fill: 0xffffff,
-      fontSize: 40,
-      fontFamily: "Press Start 2P",
-      stroke: 0xff0000,
-      strokeThickness: 6,
-  });
-  startLabel1.x = sceneWidth / 2 - startLabel1.width / 2;
-  startLabel1.y = 120;
-  startScene.addChild(startLabel1);
+  let titleText = new PIXI.Text("FIND THIS GUY!", labelStyle1);
+  titleText.x = sceneWidth / 2 - titleText.width / 2;
+  titleText.y = 150;
+  startScene.addChild(titleText);
 
   // Make start game button
   let startButton = new PIXI.Text("PRESS TO START", buttonStyle);
   startButton.x = sceneWidth / 2 - startButton.width / 2;
-  startButton.y = sceneHeight - 100;
+  startButton.y = sceneHeight - 150;
   startButton.interactive = true;
   startButton.buttonMode = true;
   startButton.on("pointerup", startGame); // startGame is a function reference
@@ -130,27 +135,39 @@ function createLabelsAndButtons() {
   startScene.addChild(startButton);
 
   // Set up gameScene
-  // Make wanted alien
+  // make wanted alien
   wantedSprite = new PIXI.Sprite(assets.alien1);
   wantedSprite.x = 275;
   wantedSprite.y = 37;
   gameScene.addChild(wantedSprite);
 
+  // make score label
+  scoreLabel = new PIXI.Text("", labelStyle2);
+  scoreLabel.x = 15;
+  scoreLabel.y = 15;
+  gameScene.addChild(scoreLabel);
+
+  // make timer label
+  timerLabel = new PIXI.Text("", labelStyle2);
+  timerLabel.x = 15;
+  timerLabel.y = 15;
+  gameScene.addChild(timerLabel);
+
   // Set up gameOverScene
   // make game over text
-    let gameOverText = new PIXI.Text("Game Over!\n\n   :-O", {
-      fill: 0xffffff,
-      fontSize: 40,
-      fontFamily: "Press Start 2P",
-      stroke: 0xff0000,
-      strokeThickness: 6,
-  });
+  let gameOverText = new PIXI.Text("GAME OVER!", labelStyle1);
   gameOverText.x = sceneWidth / 2 - gameOverText.width / 2;
-  gameOverText.y = sceneHeight / 2 - 160;
+  gameOverText.y = 100;
   gameOverScene.addChild(gameOverText);
   
+  // make final score text
+  finalScoreLabel = new PIXI.Text("", labelStyle2);
+  finalScoreLabel.x = sceneWidth / 2 - finalScoreLabel.width / 2;
+  finalScoreLabel.y = sceneHeight / 2 - finalScoreLabel.height / 2; 
+  gameOverScene.addChild(finalScoreLabel);
+
   // make "play again?" button
-  let playAgainButton = new PIXI.Text("Play Again?", buttonStyle);
+  let playAgainButton = new PIXI.Text("PLAY AGAIN?", buttonStyle);
   playAgainButton.x = sceneWidth / 2 - playAgainButton.width / 2;
   playAgainButton.y = sceneHeight - 100;
   playAgainButton.interactive = true;
@@ -159,6 +176,21 @@ function createLabelsAndButtons() {
   playAgainButton.on("pointerover", (e) => (e.target.alpha = 0.7)); // concise arrow function with no brackets
   playAgainButton.on("pointerout", (e) => (e.currentTarget.alpha = 1.0)); // ditto
   gameOverScene.addChild(playAgainButton);
+}
+
+// functions for updating the score, timer, and wanted UI elements during gameplay
+function updateScoreLabel() {
+  scoreLabel.text = `Score: ${score}`;
+  finalScoreLabel.text = `Final Score: ${score}`;
+  finalScoreLabel.x = sceneWidth / 2 - finalScoreLabel.width / 2;
+}
+function updateTimerLabel() {
+  let time = Math.ceil(timer);
+  timerLabel.text = `Time: ${time}`;
+  timerLabel.x = sceneWidth - timerLabel.width - 15;
+}
+function updateWantedLabel(sprite) {
+  wantedSprite.texture = sprite;
 }
 
 // Sets up and starts gameplay
@@ -187,8 +219,11 @@ function nextLevel() {
   clearAliens();
   if (timer > 50) timer = 50;
 
+  updateScoreLabel();
+  updateTimerLabel();
+
   let count = Math.min(100, 3 + level * 2);
-  let speed = Math.min(250, 100 + level * 5);
+  let speed = Math.min(250, 100 + level * 3);
   spawnAliens(count, speed);
 }
 
@@ -244,6 +279,7 @@ function gameLoop(){
 
   // Decrease timer
   timer -= dt;
+  updateTimerLabel();
   if (timer < 0) end();
 }
 
@@ -264,7 +300,7 @@ function spawnAliens(count = 3, speed = 100) {
   }
 
   // Update wanted alien label
-  wantedSprite.texture = targetSprite;
+  updateWantedLabel(targetSprite);
 }
 
 // Creates a single instance of an alien

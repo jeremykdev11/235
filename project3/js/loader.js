@@ -1,6 +1,6 @@
 WebFont.load({
     google: {
-      families: ["Press Start 2P"],
+      families: ["Tiny5"],
     },
     active: (e) => {
       console.log("Font loaded");
