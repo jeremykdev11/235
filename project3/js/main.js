@@ -18,6 +18,8 @@ let startScene, gameScene, gameOverScene;
 
 let aliens = [];
 let alienSprites = [];
+let gameWidth = 550; let gameHeight = 400;
+let gameX = 25; let gameY = 175;
 
 let paused = true;
 
@@ -174,17 +176,17 @@ function gameLoop(){
   for (let alien of aliens) {
     alien.move(dt);
     
-    // reflect off of screen bounds
-    if (alien.x < alien.width / 2 && alien.fwd.x < 0) {                 // left bound
+    // reflect off of game bounds
+    if (alien.x < gameX + alien.width / 2 && alien.fwd.x < 0) {                 // left bound
       alien.reflectX();
     }
-    if (alien.x > sceneWidth - alien.width / 2 && alien.fwd.x > 0) {    // right bound
+    if (alien.x > gameX + gameWidth - alien.width / 2 && alien.fwd.x > 0) {    // right bound
       alien.reflectX();
     }
-    if (alien.y < alien.height / 2 && alien.fwd.y < 0) {                // top bound
+    if (alien.y < gameY + alien.height / 2 && alien.fwd.y < 0) {                // top bound
       alien.reflectY();
     }
-    if (alien.y > sceneHeight - alien.height / 2 && alien.fwd.y > 0) {  // bottom bound
+    if (alien.y > gameY + gameHeight - alien.height / 2 && alien.fwd.y > 0) {  // bottom bound
       alien.reflectY();
     }
   }
@@ -194,17 +196,17 @@ function gameLoop(){
 function spawnAliens(count = 10) {
   console.log("spawning aliens");
 
-  // Create new array with alien sprites
+  // Create new array with filtered alien sprites
   let sprites = alienSprites.map((x) => x);
   let targetSprite = alienSprites[getRandomInt(0, 3)];
   sprites = sprites.filter((sprite) => sprite != targetSprite);
 
   // Spawn target alien
-  let targetAlien = newAlien(targetSprite, true)
+  newAlien(targetSprite, true)
   
   // Spawn all other aliens
   for (let i = 0; i < count - 1; i++) {
-    let alien = newAlien(sprites[getRandomInt(0, sprites.length - 1)], false);
+    newAlien(sprites[getRandomInt(0, sprites.length - 1)], false);
   }
 }
 
@@ -214,8 +216,8 @@ function newAlien(sprite, isTarget) {
 
   if (isTarget) alien.isTarget = true;
 
-  alien.x = Math.random() * (sceneWidth - alien.width) + alien.width / 2;
-  alien.y = Math.random() * (sceneHeight - alien.height) + alien.height / 2;
+  alien.x = gameX + Math.random() * (gameWidth - alien.width) + alien.width / 2;
+  alien.y = gameY + Math.random() * (gameHeight - alien.height) + alien.height / 2;
   aliens.push(alien);
   gameScene.addChild(alien);
 
