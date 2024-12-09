@@ -21,6 +21,10 @@ let alienSprites = [];
 let gameWidth = 550; let gameHeight = 400;
 let gameX = 25; let gameY = 175;
 
+let score = 0;
+let timer = 30;
+let level = 1;
+
 let paused = true;
 
 async function loadImages() {
@@ -30,6 +34,8 @@ async function loadImages() {
     alien2: "media/alien_2.png",
     alien3: "media/alien_3.png",
     alien4: "media/alien_4.png",
+    menuBG: "media/BG.png",
+    gameBG: "media/gameBG.png",
   });
 
   // The second argument is a callback function that is called whenever the loader makes progress.
@@ -61,16 +67,34 @@ async function setup() {
   gameScene.visible = false;
   stage.addChild(gameScene);
 
-    // Create the `gameOver` scene and make it invisible
-    gameOverScene = new PIXI.Container();
-    gameOverScene.visible = false;
-    stage.addChild(gameOverScene);
+  // Create the `gameOver` scene and make it invisible
+  gameOverScene = new PIXI.Container();
+  gameOverScene.visible = false;
+  stage.addChild(gameOverScene);
+
+  // Create backgrounds for all scenes
+  createBackgrounds();
 
   // Create labels for all scenes
   createLabelsAndButtons();
 
   // Start update loop
   app.ticker.add(gameLoop);
+}
+
+// Creates the backgrounds of each scene
+function createBackgrounds() {
+  // Start scene
+  let startBG = new PIXI.Sprite(assets.menuBG);
+  startScene.addChild(startBG);
+
+  // Game scene
+  let gameBG = new PIXI.Sprite(assets.gameBG);
+  gameScene.addChild(gameBG);
+
+  // Game over scene
+  let gameOverBG = new PIXI.Sprite(assets.menuBG);
+  gameOverScene.addChild(gameOverBG);
 }
 
 function createLabelsAndButtons() {
@@ -129,12 +153,19 @@ function createLabelsAndButtons() {
   gameOverScene.addChild(playAgainButton);
 }
 
-
+// Sets up and starts gameplay
 function startGame() {
   startScene.visible = false;
   gameOverScene.visible = false;
   gameScene.visible = true;
-  spawnAliens(50);
+
+  // Reset game variables
+  timer = 10;
+  score = 0;
+  level = 1;
+
+  // load level
+  nextLevel();
 
   // Unpause the game which allows the gameLoop and events to be active
   setTimeout(() => {
@@ -143,6 +174,14 @@ function startGame() {
   }, 50);
 }
 
+// Start the next level of the game
+function nextLevel() {
+  clearAliens();
+  if (timer > 50) timer = 50;
+  spawnAliens(5 + level * 2);
+}
+
+// Check if an alien is clicked and determine if it was the target
 function clickAlien() {
   let mousePos = app.renderer.events.pointer.global;
 
@@ -151,20 +190,21 @@ function clickAlien() {
     if (pointInRect(mousePos.x, mousePos.y, alien)) {
       // clicked alien is the correct target
       if (alien.isTarget) {
-
+        timer += 5;
+        score += 1;
+        level += 1;
+        nextLevel();
       }
       // clicked alien is not the correct target
       else {
-        end();
+        timer -= 10;
       }
-
       break;
     }
   }
-
-  
 }
 
+// Run game loop
 function gameLoop(){
   if (paused) return;
   
@@ -190,6 +230,10 @@ function gameLoop(){
       alien.reflectY();
     }
   }
+
+  // Decrease timer
+  timer -= dt;
+  if (timer < 0) end();
 }
 
 // Spawns a number of aliens to the game screen
@@ -224,16 +268,22 @@ function newAlien(sprite, isTarget) {
   return alien;
 }
 
+// Brings the game to game over
 function end() {
     paused = true;
 
-    // Clear out level
-    aliens.forEach((alien) => gameScene.removeChild(alien));
-    aliens = [];
+    clearAliens();
 
     // disable onclick event
     app.view.onclick = null;
     
     gameOverScene.visible = true;
     gameScene.visible = false;
+}
+
+// Removes all aliens from the game
+function clearAliens() {
+  // Clear out level
+  aliens.forEach((alien) => gameScene.removeChild(alien));
+  aliens = [];
 }
