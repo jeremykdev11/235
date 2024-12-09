@@ -23,7 +23,8 @@ let gameX = 25; let gameY = 175;
 
 let score = 0;
 let timer = 30;
-let level = 1;
+let level = 0;
+let wantedSprite;
 
 let paused = true;
 
@@ -128,6 +129,13 @@ function createLabelsAndButtons() {
   startButton.on("pointerout", (e) => (e.currentTarget.alpha = 1.0));
   startScene.addChild(startButton);
 
+  // Set up gameScene
+  // Make wanted alien
+  wantedSprite = new PIXI.Sprite(assets.alien1);
+  wantedSprite.x = 275;
+  wantedSprite.y = 37;
+  gameScene.addChild(wantedSprite);
+
   // Set up gameOverScene
   // make game over text
     let gameOverText = new PIXI.Text("Game Over!\n\n   :-O", {
@@ -162,7 +170,7 @@ function startGame() {
   // Reset game variables
   timer = 10;
   score = 0;
-  level = 1;
+  level = 0;
 
   // load level
   nextLevel();
@@ -178,7 +186,10 @@ function startGame() {
 function nextLevel() {
   clearAliens();
   if (timer > 50) timer = 50;
-  spawnAliens(5 + level * 2);
+
+  let count = Math.min(100, 3 + level * 2);
+  let speed = Math.min(250, 100 + level * 5);
+  spawnAliens(count, speed);
 }
 
 // Check if an alien is clicked and determine if it was the target
@@ -237,8 +248,7 @@ function gameLoop(){
 }
 
 // Spawns a number of aliens to the game screen
-function spawnAliens(count = 10) {
-  console.log("spawning aliens");
+function spawnAliens(count = 3, speed = 100) {
 
   // Create new array with filtered alien sprites
   let sprites = alienSprites.map((x) => x);
@@ -246,17 +256,20 @@ function spawnAliens(count = 10) {
   sprites = sprites.filter((sprite) => sprite != targetSprite);
 
   // Spawn target alien
-  newAlien(targetSprite, true)
+  newAlien(targetSprite, speed, true)
   
   // Spawn all other aliens
   for (let i = 0; i < count - 1; i++) {
-    newAlien(sprites[getRandomInt(0, sprites.length - 1)], false);
+    newAlien(sprites[getRandomInt(0, sprites.length - 1)], speed, false);
   }
+
+  // Update wanted alien label
+  wantedSprite.texture = targetSprite;
 }
 
 // Creates a single instance of an alien
-function newAlien(sprite, isTarget) {
-  let alien = new Alien(sprite);
+function newAlien(sprite, speed, isTarget) {
+  let alien = new Alien(sprite, speed);
 
   if (isTarget) alien.isTarget = true;
 

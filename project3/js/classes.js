@@ -1,11 +1,11 @@
 class Alien extends PIXI.Sprite {
-    constructor(texture, x = 0, y = 0) {
+    constructor(texture, speed = 100, x = 0, y = 0) {
         super(texture);
         this.anchor.set(0.5, 0.5);
         this.x = x;
         this.y = y;
         this.fwd = getRandomUnitVector();
-        this.speed = 200;
+        this.speed = speed;
         this.isTarget = false;
     }
 
