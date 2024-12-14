@@ -16,6 +16,7 @@ let assets;
 // game variables
 let startScene, gameScene, gameOverScene;
 let scoreLabel, timerLabel, finalScoreLabel;
+let startSound, loseSound, levelUpSound, levelDownSound;
 
 let aliens = [];
 let alienSprites = [];
@@ -76,6 +77,22 @@ async function setup() {
 
   // Create backgrounds for all scenes
   createBackgrounds();
+
+  // Load sounds
+  startSound = new Howl({
+    src: ["sounds/start.wav"],
+  });
+
+  loseSound = new Howl({
+    src: ["sounds/lose.wav"],
+  });
+  levelUpSound = new Howl({
+    src: ["sounds/levelup.wav"],
+  });
+
+  levelDownSound = new Howl({
+    src: ["sounds/leveldown.wav"],
+  });
 
   // Create labels for all scenes
   createLabelsAndButtons();
@@ -195,6 +212,7 @@ function updateWantedLabel(sprite) {
 
 // Sets up and starts gameplay
 function startGame() {
+  startSound.play();
   startScene.visible = false;
   gameOverScene.visible = false;
   gameScene.visible = true;
@@ -236,6 +254,7 @@ function clickAlien() {
     if (pointInRect(mousePos.x, mousePos.y, alien)) {
       // clicked alien is the correct target
       if (alien.isTarget) {
+        levelUpSound.play();
         timer += 5;
         score += 1;
         level += 1;
@@ -243,6 +262,7 @@ function clickAlien() {
       }
       // clicked alien is not the correct target
       else {
+        levelDownSound.play();
         timer -= 10;
       }
       break;
@@ -326,6 +346,7 @@ function end() {
     // disable onclick event
     app.view.onclick = null;
     
+    loseSound.play();
     gameOverScene.visible = true;
     gameScene.visible = false;
 }
